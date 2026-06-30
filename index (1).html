@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pritam Kashyap Borah — VLSI &amp; Embedded Systems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0F14;
+    --bg-soft:#11161D;
+    --panel:#161D26;
+    --line:#232C38;
+    --ink:#EDEFF2;
+    --dim:#8B96A5;
+    --blue:#4C8DFF;
+    --blue-dim:#2C5BAF;
+    --copper:#E8A14D;
+    --green:#3FD68B;
+    --mono:'IBM Plex Mono',monospace;
+    --sans:'IBM Plex Sans',sans-serif;
+    --display:'Space Grotesk',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.65;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px;}
+
+  ::selection{background:var(--blue-dim);color:#fff;}
+
+  /* background grid + glow */
+  .bg-grid{
+    position:fixed;inset:0;z-index:-2;
+    background-image:linear-gradient(var(--line) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:48px 48px;
+    opacity:0.35;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+  }
+  .bg-glow{
+    position:fixed;top:-200px;left:50%;transform:translateX(-50%);
+    width:900px;height:600px;z-index:-1;
+    background:radial-gradient(closest-side, rgba(76,141,255,0.18), transparent 70%);
+    pointer-events:none;
+  }
+
+  /* ---------- nav ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(14px);
+    background:rgba(11,15,20,0.78);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .brand{font-family:var(--display);font-weight:700;font-size:16px;display:flex;align-items:center;gap:8px;}
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);}
+  .navlinks{display:flex;gap:28px;font-family:var(--mono);font-size:13px;color:var(--dim);}
+  .navlinks a{transition:color .15s;}
+  .navlinks a:hover{color:var(--ink);}
+  .nav-cta{
+    font-family:var(--mono);font-size:12.5px;border:1px solid var(--blue-dim);
+    color:var(--blue);padding:8px 14px;border-radius:6px;transition:.15s;
+  }
+  .nav-cta:hover{background:var(--blue);color:#fff;}
+  @media (max-width:760px){.navlinks{display:none;}}
+
+  /* ---------- hero ---------- */
+  .hero{padding:96px 0 64px;position:relative;}
+  .eyebrow-row{
+    display:flex;align-items:center;gap:10px;font-family:var(--mono);
+    font-size:12.5px;color:var(--copper);letter-spacing:.08em;text-transform:uppercase;
+    margin-bottom:22px;
+  }
+  .eyebrow-row::before{content:"";width:24px;height:1px;background:var(--copper);}
+  h1{
+    font-family:var(--display);font-weight:700;
+    font-size:clamp(38px,6.4vw,68px);line-height:1.04;letter-spacing:-0.02em;
+    max-width:780px;
+  }
+  h1 span{color:var(--blue);}
+  .hero-sub{
+    margin-top:22px;font-size:17px;color:var(--dim);max-width:560px;
+  }
+  .hero-actions{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    font-family:var(--mono);font-size:13px;padding:13px 22px;border-radius:8px;
+    display:inline-flex;align-items:center;gap:8px;transition:.18s;
+  }
+  .btn-primary{background:var(--blue);color:#06101F;font-weight:600;}
+  .btn-primary:hover{background:#6FA3FF;transform:translateY(-1px);}
+  .btn-ghost{border:1px solid var(--line);color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--blue-dim);color:var(--blue);}
+
+  .hero-stats{
+    margin-top:64px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+    background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;
+  }
+  .stat{background:var(--bg-soft);padding:22px 18px;}
+  .stat .n{font-family:var(--display);font-size:26px;font-weight:700;color:var(--blue);}
+  .stat .l{font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin-top:4px;}
+  @media (max-width:700px){.hero-stats{grid-template-columns:repeat(2,1fr);}}
+
+  /* ---------- section shell ---------- */
+  section{padding:88px 0;}
+  .section-head{margin-bottom:48px;max-width:600px;}
+  .section-head .tag{
+    font-family:var(--mono);font-size:12px;color:var(--blue);letter-spacing:.1em;
+    text-transform:uppercase;margin-bottom:10px;display:block;
+  }
+  .section-head h2{font-family:var(--display);font-size:clamp(26px,3.4vw,36px);font-weight:700;}
+  .section-head p{color:var(--dim);margin-top:10px;font-size:15px;}
+
+  /* ---------- project cards ---------- */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+  @media (max-width:760px){.grid{grid-template-columns:1fr;}}
+
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:26px;display:flex;flex-direction:column;gap:14px;
+    transition:transform .2s, border-color .2s, box-shadow .2s;
+    position:relative;overflow:hidden;
+  }
+  .card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg, var(--blue), var(--copper));
+    transform:scaleX(0);transform-origin:left;transition:transform .25s;
+  }
+  .card:hover{transform:translateY(-4px);border-color:var(--blue-dim);
+    box-shadow:0 16px 40px -20px rgba(76,141,255,0.35);}
+  .card:hover::before{transform:scaleX(1);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+  .chip{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--copper);background:rgba(232,161,77,0.1);border:1px solid rgba(232,161,77,0.3);
+    padding:4px 9px;border-radius:20px;white-space:nowrap;
+  }
+  .card h3{font-family:var(--display);font-size:18.5px;font-weight:600;line-height:1.3;}
+  .card .meta{font-family:var(--mono);font-size:11.5px;color:var(--dim);}
+  .card p.desc{font-size:14px;color:#C2C9D2;}
+  .card-link{
+    margin-top:auto;font-family:var(--mono);font-size:12.5px;color:var(--blue);
+    display:inline-flex;align-items:center;gap:6px;
+  }
+  .card-link svg{transition:transform .15s;}
+  .card:hover .card-link svg{transform:translate(3px,-3px);}
+
+  /* ---------- skills ---------- */
+  .skill-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  @media (max-width:760px){.skill-grid{grid-template-columns:1fr;}}
+  .skillcat{background:var(--bg-soft);border:1px solid var(--line);border-radius:12px;padding:22px;}
+  .skillcat h4{
+    font-family:var(--mono);font-size:11.5px;color:var(--green);text-transform:uppercase;
+    letter-spacing:.08em;margin-bottom:12px;
+  }
+  .skillcat ul{list-style:none;display:flex;flex-direction:column;gap:7px;}
+  .skillcat li{font-size:14px;color:#D5DAE1;position:relative;padding-left:14px;}
+  .skillcat li::before{content:"›";position:absolute;left:0;color:var(--blue);}
+
+  /* ---------- experience timeline ---------- */
+  .timeline{position:relative;padding-left:28px;border-left:1px solid var(--line);}
+  .tl-item{position:relative;padding-bottom:40px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{
+    content:"";position:absolute;left:-33px;top:4px;width:9px;height:9px;border-radius:50%;
+    background:var(--bg);border:2px solid var(--blue);
+  }
+  .tl-row{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;}
+  .tl-item h3{font-family:var(--display);font-size:17px;font-weight:600;}
+  .tl-item .dates{font-family:var(--mono);font-size:11.5px;color:var(--copper);}
+  .tl-item .org{font-size:13.5px;color:var(--dim);margin:3px 0 10px;}
+  .tl-item ul{padding-left:18px;font-size:14px;color:#C2C9D2;}
+  .tl-item li{margin-bottom:5px;}
+
+  /* ---------- education ---------- */
+  .edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  @media (max-width:760px){.edu-grid{grid-template-columns:1fr;}}
+  .edu-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;}
+  .edu-card h3{font-family:var(--display);font-size:16px;font-weight:600;margin-bottom:6px;}
+  .edu-card .org{font-size:13.5px;color:var(--dim);}
+  .edu-card .dates{font-family:var(--mono);font-size:11.5px;color:var(--blue);margin-top:10px;display:inline-block;}
+
+  /* ---------- footer / contact ---------- */
+  footer{
+    border-top:1px solid var(--line);padding:64px 0 48px;text-align:center;
+    background:var(--bg-soft);
+  }
+  footer h2{font-family:var(--display);font-size:clamp(26px,4vw,38px);font-weight:700;margin-bottom:16px;}
+  footer p{color:var(--dim);margin-bottom:28px;}
+  .contact-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;}
+  .foot-meta{font-family:var(--mono);font-size:11.5px;color:#4D5663;}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+  .reveal{animation:fadeUp .6s ease both;}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<nav>
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span>Pritam Kashyap Borah</div>
+    <div class="navlinks">
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+    </div>
+    <a class="nav-cta" href="mailto:prit4321kborah1234@gmail.com">Get in touch</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow-row reveal">VLSI &amp; Embedded Systems Engineer</div>
+    <h1 class="reveal">Designing silicon &amp; firmware that <span>actually ships.</span></h1>
+    <p class="hero-sub reveal">From analog IC blocks in Cadence Virtuoso to PSoC firmware running real sensors — built on 2+ years of industrial instrumentation experience before pivoting into chip-level and embedded design.</p>
+    <div class="hero-actions reveal">
+      <a class="btn btn-primary" href="#projects">View projects →</a>
+      <a class="btn btn-ghost" href="https://github.com/pritamborah-dot" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn btn-ghost" href="https://linkedin.com/in/pritamkashyap" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+
+    <div class="hero-stats reveal">
+      <div class="stat"><div class="n">100%</div><div class="l">Occupancy detection accuracy</div></div>
+      <div class="stat"><div class="n">24.5</div><div class="l">ENOB, T&amp;H circuit (10K&#8486;)</div></div>
+      <div class="stat"><div class="n">2+ yrs</div><div class="l">Industrial DAQ experience</div></div>
+      <div class="stat"><div class="n">6</div><div class="l">Chip-level lab designs</div></div>
+    </div>
+  </div>
+</header>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag">Selected Work</span>
+      <h2>Projects</h2>
+      <p>From RTL and analog IC blocks to deployed embedded firmware.</p>
+    </div>
+
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-top">
+          <h3>Smart Classroom Occupancy &amp; Air Quality System</h3>
+          <span class="chip">Embedded</span>
+        </div>
+        <div class="meta">PSoC 5LP · PIR + MQ-6 gas sensing · 16×2 LCD</div>
+        <p class="desc">Single-chip system with dual-sample debounce and asymmetric hysteresis (5 HIGH / 20 LOW) — 100% post-calibration accuracy, 0% false positives over 2 hours of testing. Safety-priority logic overrides occupancy display during gas alerts.</p>
+        <a class="card-link" href="https://github.com/pritamborah-dot/smart-classroom-psoc" target="_blank" rel="noopener">View firmware &amp; schematic <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <h3>32×32 Memory Organization Design</h3>
+          <span class="chip">RTL</span>
+        </div>
+        <div class="meta">Verilog HDL · Decoders &amp; sense amplifiers</div>
+        <p class="desc">Architected a 32×32 memory array with custom row/column decoders and sense amplifier logic, verified for data integrity and timing compliance via simulation testbenches.</p>
+        <a class="card-link" href="https://github.com/pritamborah-dot/memory-32x32-verilog" target="_blank" rel="noopener">View Verilog source <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <h3>Analog &amp; Mixed-Signal Circuit Lab</h3>
+          <span class="chip">Analog IC</span>
+        </div>
+        <div class="meta">Cadence Virtuoso · DC / AC / transient analysis</div>
+        <p class="desc">Differential amplifier, current-mirror loaded op-amp, summing amplifier, NAND/NOR gates, and op-amp + MOS-level Schmitt triggers — each fully characterized.</p>
+        <a class="card-link" href="https://github.com/pritamborah-dot/analog-ic-lab-cadence" target="_blank" rel="noopener">View schematics &amp; results <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <h3>ADC/DAC &amp; Sample-and-Hold Architectures</h3>
+          <span class="chip">Data Conv.</span>
+        </div>
+        <div class="meta">Cadence Virtuoso · SNDR / SFDR / ENOB</div>
+        <p class="desc">Track-and-Hold, Sample-and-Hold, Flip-Around S/H, a VCO, 3-bit Flash ADC, 3-bit DAC, and a pipelined ADC stage — best case 149.4 dB SNDR / 24.52 ENOB at 10K&#8486;.</p>
+        <a class="card-link" href="https://github.com/pritamborah-dot/adc-dac-cadence" target="_blank" rel="noopener">View schematics &amp; results <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <h3>32-bit RISC-V Processor Design</h3>
+          <span class="chip">Processor</span>
+        </div>
+        <div class="meta">SPICE models · Gate-level optimization · IIT Guwahati</div>
+        <p class="desc">Designed a RISC-V based processor focused on gate-level power-area trade-offs, with simulated instruction execution flows validating architectural performance.</p>
+        <a class="card-link" href="https://github.com/pritamborah-dot/riscv-processor-spice" target="_blank" rel="noopener">View design files <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <h3>Dust Effect &amp; MPPT Simulation, Solar PV</h3>
+          <span class="chip">Simulation</span>
+        </div>
+        <div class="meta">MATLAB / Simulink · B.Tech Final Year Project</div>
+        <p class="desc">Simulated dust-accumulation impact on solar PV efficiency and integrated MPPT algorithms to optimize energy yield under varying environmental conditions.</p>
+        <a class="card-link" href="https://github.com/pritamborah-dot/solar-mppt-matlab" target="_blank" rel="noopener">View models <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag">Stack</span>
+      <h2>Skills</h2>
+    </div>
+    <div class="skill-grid">
+      <div class="skillcat">
+        <h4>RTL &amp; Verification</h4>
+        <ul>
+          <li>Verilog HDL</li>
+          <li>VHDL</li>
+          <li>Testbench-based functional verification</li>
+        </ul>
+      </div>
+      <div class="skillcat">
+        <h4>Analog / Mixed-Signal</h4>
+        <ul>
+          <li>Cadence Virtuoso</li>
+          <li>DC / AC / transient analysis</li>
+          <li>ADC/DAC architectures</li>
+          <li>SNDR / SFDR / ENOB characterization</li>
+        </ul>
+      </div>
+      <div class="skillcat">
+        <h4>Embedded Systems</h4>
+        <ul>
+          <li>ARM Cortex-M (PSoC 5LP)</li>
+          <li>Interrupt-driven firmware</li>
+          <li>Sensor / ADC / GPIO interfacing</li>
+        </ul>
+      </div>
+      <div class="skillcat">
+        <h4>Tools</h4>
+        <ul>
+          <li>Xilinx Vivado, Vitis</li>
+          <li>PSoC Creator</li>
+          <li>SPICE, MATLAB, Simulink</li>
+        </ul>
+      </div>
+      <div class="skillcat">
+        <h4>Languages</h4>
+        <ul>
+          <li>Embedded C, C, C++</li>
+          <li>Python (basic)</li>
+        </ul>
+      </div>
+      <div class="skillcat">
+        <h4>Industrial Automation</h4>
+        <ul>
+          <li>Real-time DAQ</li>
+          <li>WITSML, MOXA</li>
+          <li>Industrial sensor integration</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag">Track Record</span>
+      <h2>Experience</h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-row"><h3>Base Engineer — Instrumentation</h3><span class="dates">Nov 2024 – Apr 2025</span></div>
+        <p class="org">Oilfield Instrumentation India Pvt. Ltd., Assam</p>
+        <ul>
+          <li>Led eRTMAC project unit deployment for OIL India Ltd., managing real-time data acquisition for critical pressure and safety sensors (H2S, LEL)</li>
+          <li>Optimized data transmission protocols for third-party directional drilling parameters via MOXA and WITSML standards</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-row"><h3>Instrument Supervisor</h3><span class="dates">Sept 2023 – Nov 2024</span></div>
+        <p class="org">SPN Technology, Assam</p>
+        <ul>
+          <li>Directed decommissioning of legacy systems and installation of advanced control panels, increasing system reliability by 25%</li>
+          <li>Managed automation of a 20,000-liter tank farm, ensuring high-accuracy sensor calibration and industry safety compliance</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-row"><h3>Graduate Engineer Trainee (E&amp;I)</h3><span class="dates">Sept 2022 – Sept 2023</span></div>
+        <p class="org">Asian Energy Services Limited, Assam</p>
+        <ul>
+          <li>Maintained complex electrical systems and prepared detailed Bill of Materials (BOM) for lightning arrestor and ignition projects</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag">Academics</span>
+      <h2>Education</h2>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <h3>M.Tech, VLSI and Embedded Systems</h3>
+        <p class="org">Indian Institute of Information Technology (IIIT) Guwahati</p>
+        <span class="dates">Expected July 2027</span>
+      </div>
+      <div class="edu-card">
+        <h3>B.Tech, Power Electronics &amp; Instrumentation Engineering</h3>
+        <p class="org">Jorhat Institute of Science and Technology (JIST)</p>
+        <span class="dates">June 2022 · CGPA 7.61/10.0</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <h2>Let's build something.</h2>
+    <p>Open to roles in semiconductor design, SoC verification, and embedded firmware development.</p>
+    <div class="contact-row">
+      <a class="btn btn-primary" href="mailto:prit4321kborah1234@gmail.com">prit4321kborah1234@gmail.com</a>
+      <a class="btn btn-ghost" href="tel:+919435285717">+91 9435285717</a>
+      <a class="btn btn-ghost" href="https://linkedin.com/in/pritamkashyap" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn btn-ghost" href="https://github.com/pritamborah-dot" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <p class="foot-meta">Nagaon, Assam, India · Built &amp; deployed via GitHub Pages</p>
+  </div>
+</footer>
+
+</body>
+</html>
