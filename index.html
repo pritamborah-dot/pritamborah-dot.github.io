@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pritam Kashyap Borah — VLSI &amp; Embedded Systems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F7F3;
+    --paper-line:#D8DCD3;
+    --ink:#15191C;
+    --blue:#1B3A5C;
+    --blue-bright:#2E5C8A;
+    --copper:#B97A2A;
+    --slate:#5C6670;
+    --mono:'IBM Plex Mono',monospace;
+    --sans:'IBM Plex Sans',sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    background-image:
+      linear-gradient(var(--paper-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+    background-size:28px 28px;
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px;}
+
+  /* ---- Header / hero, styled like a datasheet title block ---- */
+  header.top{
+    border-bottom:2px solid var(--ink);
+    background:var(--paper);
+  }
+  .titleblock{
+    max-width:920px;margin:0 auto;padding:40px 24px 28px;
+    display:grid;grid-template-columns:1fr auto;gap:16px;
+  }
+  .partno{
+    font-family:var(--mono);font-size:12px;letter-spacing:.12em;
+    color:var(--copper);text-transform:uppercase;margin:0 0 6px;
+  }
+  h1{
+    font-family:var(--mono);font-size:clamp(28px,5vw,44px);
+    font-weight:700;margin:0 0 8px;letter-spacing:-0.01em;
+  }
+  .role{
+    font-family:var(--sans);font-size:17px;color:var(--blue);font-weight:600;margin:0 0 14px;
+  }
+  .blurb{max-width:560px;color:var(--ink);font-size:15px;margin:0;}
+  .contactblock{
+    font-family:var(--mono);font-size:12px;color:var(--slate);
+    border-left:1px solid var(--paper-line);padding-left:16px;
+    display:flex;flex-direction:column;gap:6px;justify-content:flex-start;min-width:180px;
+  }
+  .contactblock a{text-decoration:none;border-bottom:1px dotted var(--slate);}
+  .contactblock a:hover{color:var(--blue);border-color:var(--blue);}
+
+  .trace{
+    height:54px;width:100%;display:block;
+  }
+
+  nav.specbar{
+    border-bottom:1px solid var(--ink);
+    background:var(--ink);
+  }
+  nav.specbar .wrap{
+    display:flex;gap:0;flex-wrap:wrap;
+  }
+  nav.specbar a{
+    font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    color:#E8E6DE;text-decoration:none;padding:11px 18px;border-right:1px solid #333;
+  }
+  nav.specbar a:hover{background:var(--copper);color:var(--ink);}
+
+  section{padding:54px 0;border-bottom:1px solid var(--paper-line);}
+  section:last-of-type{border-bottom:none;}
+
+  .eyebrow{
+    font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--copper);margin:0 0 8px;
+  }
+  h2{
+    font-family:var(--mono);font-size:22px;font-weight:700;margin:0 0 28px;
+    padding-bottom:10px;border-bottom:1px solid var(--ink);
+  }
+
+  /* ---- project entries styled as pin-assignment rows ---- */
+  .proj{
+    display:grid;grid-template-columns:120px 1fr;gap:20px;
+    padding:20px 0;border-bottom:1px dashed var(--paper-line);
+  }
+  .proj:last-child{border-bottom:none;}
+  .proj .tag{
+    font-family:var(--mono);font-size:11px;color:var(--blue);background:#E7ECF1;
+    border:1px solid var(--blue-bright);border-radius:2px;padding:4px 8px;
+    height:fit-content;text-align:center;letter-spacing:.04em;
+  }
+  .proj h3{font-family:var(--sans);font-size:17px;font-weight:600;margin:0 0 6px;}
+  .proj p{margin:0 0 10px;font-size:14.5px;color:#2b2f33;}
+  .proj .meta{font-family:var(--mono);font-size:12px;color:var(--slate);margin-bottom:8px;}
+  .repolink{
+    font-family:var(--mono);font-size:12.5px;display:inline-flex;align-items:center;gap:6px;
+    color:var(--blue);text-decoration:none;border-bottom:1px solid var(--blue-bright);
+  }
+  .repolink:hover{color:var(--copper);border-color:var(--copper);}
+  .repolink::before{content:"↗";font-size:13px;}
+
+  /* ---- skills as a spec table ---- */
+  table.spectable{width:100%;border-collapse:collapse;font-size:14px;}
+  table.spectable td{padding:10px 0;border-bottom:1px dashed var(--paper-line);vertical-align:top;}
+  table.spectable td.label{
+    font-family:var(--mono);font-size:11.5px;color:var(--slate);text-transform:uppercase;
+    letter-spacing:.06em;width:230px;padding-right:20px;
+  }
+
+  /* ---- experience ---- */
+  .exp{margin-bottom:26px;}
+  .exp .row{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;}
+  .exp h3{font-size:16px;margin:0;font-weight:600;}
+  .exp .dates{font-family:var(--mono);font-size:12px;color:var(--slate);}
+  .exp .org{font-size:13.5px;color:var(--slate);margin:2px 0 8px;}
+  .exp ul{margin:0;padding-left:18px;font-size:14.5px;}
+  .exp li{margin-bottom:4px;}
+
+  footer{
+    padding:32px 0 60px;font-family:var(--mono);font-size:12px;color:var(--slate);
+    text-align:center;
+  }
+  footer a{color:var(--blue);text-decoration:none;border-bottom:1px dotted var(--blue);}
+
+  @media (max-width:640px){
+    .titleblock{grid-template-columns:1fr;}
+    .contactblock{border-left:none;border-top:1px solid var(--paper-line);padding-left:0;padding-top:14px;}
+    .proj{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="titleblock">
+    <div>
+      <p class="partno">PKB&#8209;2026&nbsp;&nbsp;//&nbsp;&nbsp;REV&nbsp;1.0</p>
+      <h1>Pritam Kashyap Borah</h1>
+      <p class="role">VLSI &amp; Embedded Systems Engineer</p>
+      <p class="blurb">Analog/digital IC design, Verilog HDL, and embedded firmware — built on 2+ years of field experience in industrial instrumentation and real-time data acquisition.</p>
+    </div>
+    <div class="contactblock">
+      <span>Nagaon, Assam, IN</span>
+      <a href="mailto:prit4321kborah1234@gmail.com">prit4321kborah1234@gmail.com</a>
+      <a href="tel:+919435285717">+91 9435285717</a>
+      <a href="https://linkedin.com/in/pritamkashyap" target="_blank" rel="noopener">linkedin.com/in/pritamkashyap</a>
+      <a href="https://github.com/pritamborah-dot" target="_blank" rel="noopener">github.com/pritamborah-dot</a>
+    </div>
+  </div>
+  <svg class="trace" viewBox="0 0 920 54" preserveAspectRatio="none">
+    <polyline points="0,40 60,40 80,12 110,12 130,40 220,40 240,46 260,12 280,46 300,40 400,40 420,10 440,40 920,40"
+      fill="none" stroke="#1B3A5C" stroke-width="1.5"/>
+    <polyline points="0,40 60,40 80,12 110,12 130,40 220,40 240,46 260,12 280,46 300,40 400,40 420,10 440,40 920,40"
+      fill="none" stroke="#B97A2A" stroke-width="1" stroke-dasharray="2 4" opacity="0.6" transform="translate(0,4)"/>
+  </svg>
+</header>
+
+<nav class="specbar">
+  <div class="wrap">
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#education">Education</a>
+    <a href="/mnt/user-data/outputs/Pritam_Kashyap_Borah_Resume.docx">Resume</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <section id="projects">
+    <p class="eyebrow">Datasheet — Section 1</p>
+    <h2>Projects</h2>
+
+    <div class="proj">
+      <span class="tag">EMBEDDED</span>
+      <div>
+        <h3>Smart Classroom Occupancy &amp; Air Quality Monitoring System</h3>
+        <p class="meta">PSoC 5LP (ARM Cortex-M3) · PIR + MQ-6 gas sensing · 16×2 LCD · IIIT Guwahati</p>
+        <p>Single-chip embedded system combining PIR motion detection, MQ-6 combustible gas sensing, and onboard LED/LCD output with zero external resistors. Dual-sample debounce and asymmetric hysteresis (5 HIGHs / 20 LOWs) gave 100% post-calibration occupancy accuracy with 0% false positives over 2 hours of testing. Gas alerts use a 500-count hysteresis band and unconditionally override occupancy display, per safety-first priority logic.</p>
+        <a class="repolink" href="https://github.com/pritamborah-dot/smart-classroom-psoc" target="_blank" rel="noopener">View firmware &amp; schematic</a>
+      </div>
+    </div>
+
+    <div class="proj">
+      <span class="tag">RTL</span>
+      <div>
+        <h3>32×32 Memory Organization Design</h3>
+        <p class="meta">Verilog HDL · Row/column decoders, sense amplifiers · IIIT Guwahati</p>
+        <p>Architected a 32×32 memory array with custom row/column decoder and sense amplifier logic. Verified data integrity and timing compliance through simulation testbenches.</p>
+        <a class="repolink" href="https://github.com/pritamborah-dot/memory-32x32-verilog" target="_blank" rel="noopener">View Verilog source</a>
+      </div>
+    </div>
+
+    <div class="proj">
+      <span class="tag">ANALOG IC</span>
+      <div>
+        <h3>Analog &amp; Mixed-Signal Circuit Design Lab</h3>
+        <p class="meta">Cadence Virtuoso · DC/AC/transient analysis · VLSI CAD Lab, IIIT Guwahati</p>
+        <p>Designed and characterized a differential amplifier, current-mirror loaded op-amp stage, summing amplifier, NAND/NOR logic gates, op-amp and MOS-level Schmitt triggers, and a master-slave D flip-flop frequency divider. Full DC, AC, and transient verification for every block.</p>
+        <a class="repolink" href="https://github.com/pritamborah-dot/analog-ic-lab-cadence" target="_blank" rel="noopener">View schematics &amp; results</a>
+      </div>
+    </div>
+
+    <div class="proj">
+      <span class="tag">DATA CONV</span>
+      <div>
+        <h3>ADC/DAC &amp; Sample-and-Hold Architectures</h3>
+        <p class="meta">Cadence Virtuoso · SNDR/SFDR/ENOB characterization · System Modelling Lab</p>
+        <p>Designed Track-and-Hold, Sample-and-Hold, and Flip-Around S/H circuits, a VCO from an integrator-comparator pair, a 3-bit Flash ADC, a 3-bit DAC, and a pipelined ADC stage. Computed SNDR, SFDR, and ENOB across varying on-resistances — best case 149.4 dB SNDR / 24.52 ENOB at 10KΩ.</p>
+        <a class="repolink" href="https://github.com/pritamborah-dot/adc-dac-cadence" target="_blank" rel="noopener">View schematics &amp; results</a>
+      </div>
+    </div>
+
+    <div class="proj">
+      <span class="tag">PROCESSOR</span>
+      <div>
+        <h3>32-bit RISC-V Processor Design</h3>
+        <p class="meta">SPICE models · Gate-level optimization · Internship, IIT Guwahati</p>
+        <p>Designed a RISC-V based digital processor focused on gate-level power-area trade-offs. Simulated instruction execution flows to validate architectural performance metrics.</p>
+        <a class="repolink" href="https://github.com/pritamborah-dot/riscv-processor-spice" target="_blank" rel="noopener">View design files</a>
+      </div>
+    </div>
+
+    <div class="proj">
+      <span class="tag">SIMULATION</span>
+      <div>
+        <h3>Dust Effect &amp; MPPT Simulation of Solar PV Modules</h3>
+        <p class="meta">MATLAB / Simulink · B.Tech Final Year Project</p>
+        <p>Simulated dust-accumulation impact on solar PV efficiency and integrated MPPT algorithms to optimize energy yield under varying environmental conditions.</p>
+        <a class="repolink" href="https://github.com/pritamborah-dot/solar-mppt-matlab" target="_blank" rel="noopener">View models</a>
+      </div>
+    </div>
+
+  </section>
+
+  <section id="skills">
+    <p class="eyebrow">Datasheet — Section 2</p>
+    <h2>Skills</h2>
+    <table class="spectable">
+      <tr><td class="label">RTL / Verification</td><td>Verilog HDL, VHDL, testbench-based functional verification</td></tr>
+      <tr><td class="label">Analog / Mixed-Signal</td><td>Cadence Virtuoso — DC/AC/transient analysis, op-amp &amp; comparator topologies, ADC/DAC architectures, DFT/SNDR/ENOB characterization</td></tr>
+      <tr><td class="label">Tools</td><td>Xilinx Vivado, Vitis, PSoC Creator, SPICE, MATLAB, Simulink</td></tr>
+      <tr><td class="label">Embedded</td><td>ARM Cortex-M (PSoC 5LP), interrupt-driven firmware, sensor/ADC/GPIO interfacing</td></tr>
+      <tr><td class="label">Languages</td><td>Embedded C, C, C++, Python (basic)</td></tr>
+      <tr><td class="label">Industrial Automation</td><td>Real-time DAQ, WITSML, MOXA, industrial sensor integration</td></tr>
+    </table>
+  </section>
+
+  <section id="experience">
+    <p class="eyebrow">Datasheet — Section 3</p>
+    <h2>Experience</h2>
+
+    <div class="exp">
+      <div class="row"><h3>Base Engineer — Instrumentation</h3><span class="dates">Nov 2024 – Apr 2025</span></div>
+      <p class="org">Oilfield Instrumentation India Pvt. Ltd., Assam</p>
+      <ul>
+        <li>Led eRTMAC project unit deployment for OIL India Ltd., managing real-time data acquisition for critical pressure and safety sensors (H2S, LEL)</li>
+        <li>Optimized data transmission protocols for third-party directional drilling parameters via MOXA and WITSML standards</li>
+      </ul>
+    </div>
+
+    <div class="exp">
+      <div class="row"><h3>Instrument Supervisor</h3><span class="dates">Sept 2023 – Nov 2024</span></div>
+      <p class="org">SPN Technology, Assam</p>
+      <ul>
+        <li>Directed decommissioning of legacy systems and installation of advanced control panels, increasing system reliability by 25%</li>
+        <li>Managed automation of a 20,000-liter tank farm, ensuring high-accuracy sensor calibration and industry safety compliance</li>
+      </ul>
+    </div>
+
+    <div class="exp">
+      <div class="row"><h3>Graduate Engineer Trainee (E&amp;I)</h3><span class="dates">Sept 2022 – Sept 2023</span></div>
+      <p class="org">Asian Energy Services Limited, Assam</p>
+      <ul>
+        <li>Maintained complex electrical systems and prepared detailed Bill of Materials (BOM) for lightning arrestor and ignition projects</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="education">
+    <p class="eyebrow">Datasheet — Section 4</p>
+    <h2>Education</h2>
+    <div class="exp">
+      <div class="row"><h3>M.Tech, VLSI and Embedded Systems</h3><span class="dates">Expected July 2027</span></div>
+      <p class="org">Indian Institute of Information Technology (IIIT) Guwahati</p>
+    </div>
+    <div class="exp">
+      <div class="row"><h3>B.Tech, Power Electronics and Instrumentation Engineering</h3><span class="dates">June 2022</span></div>
+      <p class="org">Jorhat Institute of Science and Technology (JIST) · CGPA: 7.61/10.0</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Built for GitHub Pages · Contact via <a href="mailto:prit4321kborah1234@gmail.com">email</a> or <a href="https://linkedin.com/in/pritamkashyap" target="_blank" rel="noopener">LinkedIn</a></p>
+</footer>
+
+</body>
+</html>
